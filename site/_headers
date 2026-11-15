@@ -1,6 +1,8 @@
 # Cloudflare Pages: Sicherheits-Header für alle Pfade.
 # Nur eigene Quellen. connect-src 'self', weil Vorlagen und Schrift beim Seitenaufruf per fetch von der eigenen Seite geladen werden.
 # form-action 'none': selbst wenn JavaScript ausfällt, wird das Formular nie abgeschickt.
+# HSTS: nur HTTPS, ohne includeSubDomains (betrifft keine anderen Subdomains von vermakom.de).
+# "! Access-Control-Allow-Origin" entfernt den Cloudflare-Standard "*": andere Seiten dürfen unsere Dateien nicht per Skript abrufen.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; worker-src 'none'; manifest-src 'none'
   X-Content-Type-Options: nosniff
@@ -10,3 +12,5 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   X-Robots-Tag: noindex
+  Strict-Transport-Security: max-age=31536000
+  ! Access-Control-Allow-Origin
