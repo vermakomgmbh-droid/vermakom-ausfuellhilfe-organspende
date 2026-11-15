@@ -207,7 +207,8 @@ test('Kein Speicher, keine Cookies, keine externen Adressen im eigenen Code', ()
   for (const f of eigeneDateien) {
     const s = readFileSync(f, 'utf8');
     assert.doesNotMatch(s, /localStorage|sessionStorage|document\.cookie|indexedDB|navigator\.sendBeacon|XMLHttpRequest|WebSocket/, f);
-    assert.doesNotMatch(s, /(?:src|href)\s*=\s*["']?(?:https?:)?\/\//i, f);   // keine externen Skripte/Styles/Links
+    assert.doesNotMatch(s, /\ssrc\s*=\s*["']?(?:https?:)?\/\//i, f);   // keine externen Skripte/Bilder
+    assert.doesNotMatch(s, /<link[^>]*href\s*=\s*["']?(?:https?:)?\/\//i, f);   // keine externen Styles/Preloads
     assert.doesNotMatch(s, /url\(\s*["']?(?:https?:)?\/\//i, f);
     assert.doesNotMatch(s, /fetch\(\s*["'`]https?:/i, f);
   }
@@ -215,6 +216,21 @@ test('Kein Speicher, keine Cookies, keine externen Adressen im eigenen Code', ()
   assert.doesNotMatch(html, /<script(?![^>]*\ssrc=)[^>]*>/i, 'kein Inline-Skript');
   assert.doesNotMatch(html, /\sstyle\s*=/i, 'keine Inline-Styles');
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i, 'keine Inline-Eventhandler');
+});
+
+test('Externe Links: nur die freigegebenen Adressen, neuer Tab, kein Referrer', () => {
+  const html = readFileSync('site/index.html', 'utf8');
+  const links = [...html.matchAll(/<a\s[^>]*href="(https?:[^"]+)"[^>]*>/g)];
+  assert.deepEqual(links.map((l) => l[1]).sort(), [
+    'https://go.vermakom.de/widget/booking/y600KbNGccADnv7QZjaa', 'https://lp.vermakom.de/ratgeber',
+    'https://vermakom.de/datenschutz', 'https://vermakom.de/impressum',
+  ]);
+  for (const [tag] of links) {
+    assert.match(tag, /target="_blank"/, tag);
+    assert.match(tag, /rel="noopener noreferrer"/, tag);
+  }
+  assert.doesNotMatch(html, /PLATZHALTER/);
+  assert.doesNotMatch(html, /href="https?:[^"]*\?/, 'keine Parameter (Daten) in Link-URLs');
 });
 
 test('Formularfelder haben keine name-Attribute mit Personendaten (nichts landet je in einer URL)', () => {

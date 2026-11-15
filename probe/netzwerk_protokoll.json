@@ -174,7 +174,11 @@
       },
       "cspVerstoesse": [],
       "konsole": [],
-      "formularNachWeitere": "leer",
+      "formularNachWeitere": {
+        "adresseBleibt": true,
+        "restLeer": true,
+        "ergebnisWeg": true
+      },
       "vornameNachNeuladen": ""
     },
     {
@@ -349,7 +353,11 @@
       },
       "cspVerstoesse": [],
       "konsole": [],
-      "formularNachWeitere": "leer",
+      "formularNachWeitere": {
+        "adresseBleibt": true,
+        "restLeer": true,
+        "ergebnisWeg": true
+      },
       "vornameNachNeuladen": ""
     },
     {
@@ -530,7 +538,11 @@
       },
       "cspVerstoesse": [],
       "konsole": [],
-      "formularNachWeitere": "leer",
+      "formularNachWeitere": {
+        "adresseBleibt": true,
+        "restLeer": true,
+        "ergebnisWeg": true
+      },
       "vornameNachNeuladen": ""
     }
   ],

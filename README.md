@@ -80,7 +80,8 @@ Sicherheitsregeln, die technisch abgesichert und getestet sind:
 |---|---|
 | Überschrift, Hinweise, Schritte, Zeugen-/Ausweis-Hinweis vor dem Download | `site/index.html` |
 | Versandanleitung inkl. Adressen (OVSZ NSZTR, GÖG, wr@goeg.at) | `site/index.html`, Abschnitt `id="versand"` |
-| Links Erstberatung, Ratgeber, Impressum, Datenschutz | `site/index.html`, Suche nach `PLATZHALTER` |
+| Links Erstberatung, Ratgeber, Impressum, Datenschutz (öffnen in neuem Tab, damit Ergebnis und Eingaben erhalten bleiben) | `site/index.html`, Suche nach `https://`; erlaubte Adressen stehen auch im Test `Externe Links` in `tests/organspende.test.mjs` |
+| Welche Felder „Weitere Person ausfüllen“ stehen lässt | `site/app.js`, `ADRESSFELDER` |
 | Zeugen-Hinweis und „Kopie – nicht einsenden“ im HU-PDF | `site/lib/organspende.js`, `ZEUGEN_HINWEIS`, `KOPIE_VERMERK` |
 | Auswahlliste Staatsangehörigkeit (mit ungarischer Bezeichnung) | `site/lib/organspende.js`, `STAATSANGEHOERIGKEITEN` |
 | Auswahlliste Wohnsitzland | `site/lib/organspende.js`, `LAENDER` |
@@ -100,19 +101,19 @@ Nicht erledigt, nicht Teil dieses Auftrags. Für später: Cloudflare Pages, Ausg
 Umgebungsvariablen. `_headers` wird von Cloudflare Pages automatisch angewendet. Nach dem ersten Deployment im Browser prüfen, dass
 die Header ankommen (Entwicklertools → Netzwerk → Antwort-Header von `/`).
 
+## Erledigt und bestätigt (Bernd, 15.11.2026)
+
+- AT-Kästchen in Acrobat Reader und im Edge-Druck geprüft: in Ordnung.
+- Wohnland in der Einwilligungserklärung zweisprachig („Németország / Deutschland“): bestätigt.
+- Ungarische Bezeichnungen der Staatsangehörigkeiten (`STAATSANGEHOERIGKEITEN`): bestätigt.
+- Links Impressum, Datenschutz, Erstberatung, Ratgeber eingetragen.
+- „Weitere Person ausfüllen“ lässt Straße, Hausnummer, Land, PLZ und Ort stehen und leert alles andere.
+
 ## Offene Punkte
 
-1. **Sichtprüfung AT-Kästchen in Acrobat Reader und im Edge-Druck steht aus.** Hier nicht verfügbar. Geprüft ist: Zustandsnamen
-   exakt aus dem Original, kein `NeedAppearances`, Darstellung in PDFium (Chrome-Engine) und poppler korrekt (`probe/kaestchen/`).
-   Bitte `probe/Probe_AT_1_….pdf` in Acrobat öffnen und in Edge drucken (Druckvorschau reicht).
-2. Links (Erstberatung, Ratgeber, Impressum, Datenschutz) sind Platzhalter.
-3. Begleitschreiben HU bleibt in der amtlich geprüften „ich/wir“-Form. Eine Ich-Fassung nur, wenn Bernd sie als geprüfte Datei liefert.
-4. Ungarische Bezeichnungen der Staatsangehörigkeiten außer „német“ (osztrák, svájci, magyar, holland, belga, luxemburgi) bitte von
-   der Übersetzerin bestätigen lassen.
-5. Einwilligungserklärung, Feld Land: jetzt zweisprachig für alle Länder („Németország / Deutschland“). Im Board stand das nur für
-   Ungarn, sonst nur Deutsch. Bitte bestätigen.
-6. „Weitere Person ausfüllen“ leert alles außer der Länderauswahl (laut Auftrag). Optional: Adresse für den Partner stehen lassen.
-7. Ladegröße beim Seitenaufruf ca. 6,5 MB (Vorlagen 5,5 MB, davon AT 3,4 MB). Auf langsamen Mobilverbindungen dauert das einige
+1. Begleitschreiben HU bleibt in der amtlich geprüften „ich/wir“-Form. Eine Ich-Fassung nur, wenn Bernd sie als geprüfte Datei liefert.
+2. Ladegröße beim Seitenaufruf ca. 6,5 MB (Vorlagen 5,5 MB, davon AT 3,4 MB). Auf langsamen Mobilverbindungen dauert das einige
    Sekunden; der Knopf ist bis dahin gesperrt und es steht „Formulare werden geladen …“.
-8. TAJ-Nummer: geprüft wird nur „9 Ziffern“, nicht die Prüfziffer (Algorithmus nicht amtlich bestätigt).
-9. Datum „heute“ kommt aus der Uhr des Besucher-Computers.
+3. TAJ-Nummer: geprüft wird nur „9 Ziffern“, nicht die Prüfziffer (Algorithmus nicht amtlich bestätigt).
+4. Datum „heute“ kommt aus der Uhr des Besucher-Computers.
+5. Veröffentlichung (Cloudflare Pages) nur mit Bernds OK, siehe oben.

@@ -153,11 +153,16 @@ async function erzeugen(ev) {
   }
 }
 
+// Bleiben bei „Weitere Person ausfüllen“ stehen (Partner wohnt meist an derselben Adresse); alles andere wird geleert
+const ADRESSFELDER = ['strasse', 'hausnr', 'land', 'plz', 'ort'];
+
 function weiterePerson() {
   const auswahl = formular.querySelector('input[name="laender"]:checked')?.value;
+  const adresse = Object.fromEntries(ADRESSFELDER.map((id) => [id, $(`#${id}`).value]));
   ergebnisLeeren();
   formular.reset();
   if (auswahl) formular.querySelector(`input[name="laender"][value="${auswahl}"]`).checked = true;
+  for (const [id, wert] of Object.entries(adresse)) $(`#${id}`).value = wert;
   fehlerZeigen([]);
   sichtbarkeit();
   window.scrollTo({ top: formular.querySelector('#s2').offsetTop, behavior: 'smooth' });

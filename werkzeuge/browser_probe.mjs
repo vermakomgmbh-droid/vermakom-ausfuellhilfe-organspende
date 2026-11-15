@@ -72,7 +72,17 @@ async function lauf(name, auswahl, daten, kontextOptionen = {}) {
 
   // „Weitere Person ausfüllen“ leert das Formular
   await page.click('#weitere');
-  const leer = await page.evaluate(() => [...document.querySelectorAll('#formular input[type=text]')].every((e) => !e.value));
+  const nachWeitere = await page.evaluate(() => {
+    const bleibt = ['strasse', 'hausnr', 'land', 'plz', 'ort'];
+    const felder = [...document.querySelectorAll('#formular input[type=text], #formular select')];
+    return {
+      adresseBleibt: bleibt.every((id) => document.getElementById(id).value !== ''),
+      restLeer: felder.filter((e) => !bleibt.includes(e.id)).every((e) => !e.value)
+        && !document.querySelector('input[name="geschlecht"]:checked'),
+      ergebnisWeg: document.getElementById('ergebnis').hidden,
+    };
+  });
+  const leer = nachWeitere.adresseBleibt && nachWeitere.restLeer && nachWeitere.ergebnisWeg;
 
   // Neuladen: Eingaben weg
   await page.fill('#vorname', 'Test');
@@ -84,7 +94,7 @@ async function lauf(name, auswahl, daten, kontextOptionen = {}) {
     name, auswahl, requestsBeimLaden: nachLaden,
     requestsNachLadenUndBeimErzeugen: requests.filter((q) => ['nach-dem-laden', 'erzeugen', 'nach-dem-download'].includes(q.phase)),
     alleRequests: requests, hinweiseVorDownload: hinweise, downloads: dateien, versandanleitung: versand,
-    speicher, cspVerstoesse: csp, konsole, formularNachWeitere: leer ? 'leer' : 'NICHT leer', vornameNachNeuladen: nachReload,
+    speicher, cspVerstoesse: csp, konsole, formularNachWeitere: nachWeitere, vornameNachNeuladen: nachReload,
   };
   protokoll.laeufe.push(r);
   const netz = r.requestsNachLadenUndBeimErzeugen.filter((q) => !q.url.startsWith('blob:'));
@@ -95,7 +105,7 @@ async function lauf(name, auswahl, daten, kontextOptionen = {}) {
   pruefen(konsole.length === 0, `${name}: Konsolenfehler: ${konsole.length} ${konsole.join('; ')}`);
   pruefen(dateien.length === (auswahl === 'beide' ? 2 : 1), `${name}: Downloads ${dateien.map((d) => d.datei).join(', ')}`);
   pruefen(!speicher.localStorage && !speicher.sessionStorage && !speicher.cookies && speicher.url === URL_SEITE, `${name}: kein Speicher, keine Cookies, URL ohne Daten (${speicher.url})`);
-  pruefen(leer, `${name}: „Weitere Person ausfüllen“ leert das Formular`);
+  pruefen(leer, `${name}: „Weitere Person ausfüllen“: Adresse bleibt, alles andere leer, Ergebnis weg (${JSON.stringify(nachWeitere)})`);
   pruefen(nachReload === '', `${name}: nach Neuladen sind Eingaben weg`);
   await ctx.close();
 }
