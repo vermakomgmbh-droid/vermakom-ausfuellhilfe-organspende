@@ -1,0 +1,12 @@
+{
+  "name": "vermakom-ausfuellhilfe-organspende",
+  "private": true,
+  "type": "module",
+  "description": "Statische Ausfüllhilfe Organspende-Widerspruch HU/AT. Keine Abhängigkeiten; Node nur für lokale Tests.",
+  "scripts": {
+    "start": "node werkzeuge/server.mjs 8080",
+    "test": "node --test tests/*.test.mjs",
+    "probe": "node werkzeuge/probe.mjs",
+    "browserprobe": "node werkzeuge/browser_probe.mjs"
+  }
+}
