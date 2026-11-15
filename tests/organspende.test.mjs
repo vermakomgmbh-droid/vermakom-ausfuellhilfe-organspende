@@ -222,7 +222,7 @@ test('Externe Links: nur die freigegebenen Adressen, neuer Tab, kein Referrer', 
   const html = readFileSync('site/index.html', 'utf8');
   const links = [...html.matchAll(/<a\s[^>]*href="(https?:[^"]+)"[^>]*>/g)];
   assert.deepEqual(links.map((l) => l[1]).sort(), [
-    'https://go.vermakom.de/widget/booking/y600KbNGccADnv7QZjaa', 'https://lp.vermakom.de/ratgeber',
+    'https://go.vermakom.de/widget/booking/EIBV1Pv0vah21Qxnn6Yn', 'https://lp.vermakom.de/ratgeber',
     'https://vermakom.de/datenschutz', 'https://vermakom.de/impressum',
   ]);
   for (const [tag] of links) {
