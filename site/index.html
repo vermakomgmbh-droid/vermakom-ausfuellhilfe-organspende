@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Ausfüllhilfe Organspende-Widerspruch Ungarn und Österreich</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/fontkit.umd.min.js" defer></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="kopf">
+  <div class="breite">
+    <p class="marke">VerMaKom · Ausfüllhilfe</p>
+  </div>
+</header>
+
+<main class="breite" id="inhalt">
+  <h1>In fünf Minuten ausgefüllt: Ihr Widerspruch für Ungarn und Österreich.</h1>
+
+  <p class="hinweis datenschutz"><strong>Ihre Angaben verlassen Ihren Computer nicht. Wir speichern nichts.</strong></p>
+
+  <p class="hinweis doi">Bitte bestätigen Sie noch Ihre E-Mail-Adresse – dann erhalten Sie die Versand-Checkliste.</p>
+
+  <p class="einleitung">Sie entscheiden selbst, was mit Ihren Organen geschieht. Diese Ausfüllhilfe trägt Ihre Angaben in die amtlichen Formulare ein.
+    Danach drucken Sie die Formulare aus, unterschreiben sie und schicken sie ab.</p>
+
+  <ol class="schritte" aria-label="So funktioniert es">
+    <li><span>1</span> Land wählen</li>
+    <li><span>2</span> Daten eintragen</li>
+    <li><span>3</span> PDFs herunterladen</li>
+  </ol>
+
+  <p id="ladestatus" class="status" role="status">Formulare werden geladen …</p>
+
+  <form id="formular" method="post" autocomplete="off" novalidate>
+    <!-- Schritt 1 -->
+    <section class="schritt" aria-labelledby="s1">
+      <h2 id="s1"><span class="nr">1</span> Land wählen</h2>
+      <fieldset class="wahl">
+        <legend>Für welches Land möchten Sie widersprechen?</legend>
+        <label class="option"><input type="radio" name="laender" value="beide" checked> Ungarn und Österreich</label>
+        <label class="option"><input type="radio" name="laender" value="HU"> Nur Ungarn</label>
+        <label class="option"><input type="radio" name="laender" value="AT"> Nur Österreich</label>
+      </fieldset>
+    </section>
+
+    <!-- Schritt 2 -->
+    <section class="schritt" aria-labelledby="s2">
+      <h2 id="s2"><span class="nr">2</span> Daten eintragen</h2>
+      <p class="klein">Bitte so eintragen, wie es in Ihrem Ausweis steht. Felder ohne „optional“ sind Pflicht.</p>
+
+      <div id="fehlerbox" class="fehlerbox" role="alert" tabindex="-1" hidden></div>
+
+      <h3>Person</h3>
+      <div class="raster">
+        <div class="feld"><label for="vorname">Vorname</label><input id="vorname" type="text" autocomplete="off" spellcheck="false"></div>
+        <div class="feld"><label for="nachname">Nachname</label><input id="nachname" type="text" autocomplete="off" spellcheck="false"></div>
+        <div class="feld" data-land="HU"><label for="geburtsname">Geburtsname <span class="opt">(nur falls abweichend, optional)</span></label><input id="geburtsname" type="text" autocomplete="off" spellcheck="false"></div>
+        <fieldset class="feld wahl-inline" data-land="AT">
+          <legend>Geschlecht</legend>
+          <label class="option"><input type="radio" name="geschlecht" value="w"> weiblich</label>
+          <label class="option"><input type="radio" name="geschlecht" value="m"> männlich</label>
+        </fieldset>
+        <div class="feld"><label for="gebdat">Geburtsdatum <span class="opt">(TT.MM.JJJJ)</span></label><input id="gebdat" type="text" inputmode="numeric" placeholder="z. B. 02.11.1959" autocomplete="off"></div>
+        <div class="feld" data-land="HU"><label for="gebort">Geburtsort</label><input id="gebort" type="text" autocomplete="off" spellcheck="false"></div>
+        <div class="feld"><label for="staat">Staatsangehörigkeit</label><select id="staat"></select></div>
+      </div>
+
+      <div data-land="HU">
+        <h3>Geburtsname der Mutter <span class="opt">(für Ungarn)</span></h3>
+        <div class="raster">
+          <div class="feld"><label for="mutterNach">Nachname (Geburtsname)</label><input id="mutterNach" type="text" autocomplete="off" spellcheck="false"></div>
+          <div class="feld"><label for="mutterVor">Vorname</label><input id="mutterVor" type="text" autocomplete="off" spellcheck="false"></div>
+        </div>
+      </div>
+
+      <h3>Wohnadresse</h3>
+      <div class="raster">
+        <div class="feld breit2"><label for="strasse">Straße</label><input id="strasse" type="text" autocomplete="off" spellcheck="false"></div>
+        <div class="feld"><label for="hausnr">Hausnummer</label><input id="hausnr" type="text" autocomplete="off"></div>
+        <div class="feld"><label for="land">Land</label><select id="land"></select></div>
+        <div class="feld"><label for="plz">PLZ</label><input id="plz" type="text" inputmode="numeric" autocomplete="off"></div>
+        <div class="feld"><label for="ort">Ort</label><input id="ort" type="text" autocomplete="off" spellcheck="false"></div>
+      </div>
+
+      <div data-land="HU">
+        <h3>Ungarn</h3>
+        <div class="raster">
+          <div class="feld"><label for="taj">TAJ-Nummer <span class="opt">(9 Ziffern, steht auf der ungarischen Sozialversicherungskarte)</span></label><input id="taj" type="text" inputmode="numeric" placeholder="z. B. 123 456 789" autocomplete="off"></div>
+        </div>
+      </div>
+
+      <div data-land="AT">
+        <h3>Österreich</h3>
+        <div class="raster">
+          <div class="feld"><label for="ausweisart">Ausweisart</label>
+            <select id="ausweisart">
+              <option value="">Bitte wählen</option>
+              <option>Reisepass</option>
+              <option>Personalausweis</option>
+              <option>Führerschein</option>
+            </select>
+          </div>
+          <div class="feld"><label for="ausweisnr">Ausweisnummer</label><input id="ausweisnr" type="text" autocomplete="off" spellcheck="false"></div>
+          <div class="feld breit2"><label for="svAt">Österreichische Sozialversicherungsnummer <span class="opt">(optional, 10 Ziffern – nur wenn Sie eine haben; dann ist kein Ausweis nötig)</span></label><input id="svAt" type="text" inputmode="numeric" autocomplete="off"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schritt 3 -->
+    <section class="schritt" aria-labelledby="s3">
+      <h2 id="s3"><span class="nr">3</span> PDFs herunterladen</h2>
+      <div class="wichtig">
+        <p><strong>Bitte vorab bereitlegen:</strong></p>
+        <ul>
+          <li data-land="HU"><strong>Ungarn:</strong> Sie unterschreiben vor <strong>zwei volljährigen Zeugen</strong>. Ehepartner und Verwandte sind erlaubt. Die Zeugen tragen Name, Adresse und Ausweisnummer ein und unterschreiben – alles in blauer Tinte. Ohne Zeugen ist die Erklärung unwirksam.</li>
+          <li data-land="AT"><strong>Österreich:</strong> Sie legen eine <strong>gut lesbare Kopie eines amtlichen Lichtbildausweises</strong> bei (z. B. Reisepass oder Personalausweis).</li>
+        </ul>
+      </div>
+      <button type="submit" id="erzeugen" class="knopf haupt" disabled>Formulare ausfüllen</button>
+      <p id="arbeitsstatus" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </form>
+
+  <section id="ergebnis" class="schritt ergebnis" aria-labelledby="e1" hidden tabindex="-1">
+    <h2 id="e1">Ihre Formulare sind fertig</h2>
+    <p>Laden Sie die Dateien herunter, drucken Sie sie aus und unterschreiben Sie eigenhändig.</p>
+    <div id="downloads" class="downloads"></div>
+
+    <div id="versand" class="versand">
+      <div class="druck-kopf">
+        <p class="marke">VerMaKom · Ausfüllhilfe Organspende-Widerspruch</p>
+      </div>
+      <h2>So verschicken Sie Ihre Formulare</h2>
+
+      <div class="land-anleitung" data-land="HU">
+        <h3>Ungarn</h3>
+        <ol>
+          <li>Drucken Sie das Ungarn-Paket aus. Die letzte Seite (deutsches Begleitschreiben) ist nur eine Kopie für Sie – <strong>nicht einsenden</strong>.</li>
+          <li>Unterschreiben Sie eigenhändig in <strong>blauer Tinte</strong>: das ungarische Begleitschreiben, die Protesterklärung und die Einwilligungserklärung.</li>
+          <li>Zwei <strong>volljährige Zeugen</strong> unterschreiben die Protesterklärung mit Name, Adresse und Ausweisnummer, ebenfalls in blauer Tinte. Ehepartner und Verwandte sind erlaubt. Ein Arzt ist nicht nötig.</li>
+          <li>Schicken Sie Begleitschreiben, Protesterklärung und Einwilligungserklärung <strong>per Einschreiben</strong> an:
+            <address>OVSZ NSZTR<br>Karolina út 19-21<br>1113 Budapest<br>Ungarn</address>
+          </li>
+          <li>Bewahren Sie eine Kopie bis zur Eintragungsbestätigung bei Ihren Ausweispapieren auf.</li>
+        </ol>
+      </div>
+
+      <div class="land-anleitung" data-land="AT">
+        <h3>Österreich</h3>
+        <ol>
+          <li>Drucken Sie das Österreich-Paket aus. Das Informationsblatt (die ersten beiden Seiten) behalten Sie.</li>
+          <li>Unterschreiben Sie das Formular im Original.</li>
+          <li>Legen Sie eine <strong>gut lesbare Kopie eines amtlichen Lichtbildausweises</strong> bei.</li>
+          <li>Schicken Sie beides per Post an:
+            <address>Gesundheit Österreich GmbH<br>Widerspruchsregister<br>Stubenring 6<br>1010 Wien<br>Österreich</address>
+            oder eingescannt per E-Mail an <strong>wr@goeg.at</strong>.
+          </li>
+          <li>Die Bestätigung kommt per Post.</li>
+        </ol>
+      </div>
+
+      <div class="land-anleitung">
+        <h3>Für Ihre Unterlagen</h3>
+        <p>Machen Sie von allem eine Kopie: eine für Ihre eigenen Unterlagen und eine für Ihre Familie, damit Ihre Angehörigen Ihre Entscheidung kennen.</p>
+      </div>
+    </div>
+
+    <div class="aktionen">
+      <button type="button" id="drucken" class="knopf">Versandanleitung drucken</button>
+      <button type="button" id="weitere" class="knopf">Weitere Person ausfüllen</button>
+    </div>
+
+    <div class="weiter">
+      <p><strong>Die Organspende ist geregelt. Was ist mit Patientenverfügung, Vollmacht und Testament?</strong></p>
+      <!-- PLATZHALTER: echte Links eintragen (siehe README, Abschnitt „Texte und Links ändern“) -->
+      <p><a class="knopf haupt" href="#PLATZHALTER-erstberatung">→ Kostenlose Erstberatung (30 Min., online)</a></p>
+      <p><a href="#PLATZHALTER-ratgeber">Zum Ratgeber</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="fuss">
+  <div class="breite">
+    <!-- PLATZHALTER: echte Links eintragen -->
+    <a href="#PLATZHALTER-impressum">Impressum</a>
+    <a href="#PLATZHALTER-datenschutz">Datenschutzerklärung</a>
+    <p class="klein">Die Ausfüllhilfe befüllt die amtlichen Formulare. Für die Wirksamkeit sind Ihre Unterschrift, bei Ungarn die Zeugen, und der Versand an die zuständige Stelle entscheidend.</p>
+  </div>
+</footer>
+</body>
+</html>
