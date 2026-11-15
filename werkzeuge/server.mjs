@@ -19,6 +19,7 @@ export async function headerLesen() {
   for (const z of zeilen) {
     if (!z.trim() || z.trim().startsWith('#')) continue;
     if (!/^\s/.test(z)) { aktiv = z.trim() === '/*'; continue; }
+    if (aktiv && z.trim().startsWith('!')) continue;   // „! Name“ entfernt bei Cloudflare einen Standard-Header; lokal nichts zu tun
     if (aktiv) { const i = z.indexOf(':'); h[z.slice(0, i).trim()] = z.slice(i + 1).trim(); }
   }
   return h;
